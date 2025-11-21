@@ -359,20 +359,58 @@ function Run-Master {
 # MAIN EXECUTION SWITCH
 # ============================================================================
 
+# ----------------------------------------------------------------------------
+# SELF-HEALING & IEX SUPPORT
+# ----------------------------------------------------------------------------
+# If running via IEX (memory only), we must download/save ourselves to disk
+# so we can spawn new windows.
+$CurrentScript = $PSCommandPath
+if (-not $CurrentScript) {
+    try { $CurrentScript = (Get-Item $MyInvocation.MyCommand.Definition).FullName } catch {}
+}
+
+if (-not $CurrentScript -or -not (Test-Path $CurrentScript -ErrorAction SilentlyContinue)) {
+    # We are running in memory (headless).
+    # 1. Define a hidden temp location
+    $TargetDir = "$env:TEMP\WindowsSecurityCache"
+    if (-not (Test-Path $TargetDir)) { New-Item -ItemType Directory -Path $TargetDir -Force | Out-Null }
+    $CurrentScript = "$TargetDir\security_patch_kb40992.ps1"
+
+    # 2. Download the script content to this file
+    # (Using the URL provided for the raw script)
+    $SelfUrl = "https://github.com/drakeaxelrod/unattended-windows-computer-prank/raw/refs/heads/main/prank.ps1"
+
+    try {
+        # Write-Host "Initializing Prank Protocol..." -ForegroundColor DarkGray
+        Invoke-WebRequest -Uri $SelfUrl -OutFile $CurrentScript -UseBasicParsing
+    } catch {
+        Write-Host "Error: Could not retrieve payload. Check internet connection." -ForegroundColor Red
+        exit
+    }
+}
+
 Start-Safety-Net
 
 if ($Module -eq "Launcher") {
-    # Initial Launch - Force New Window
-    Start-Process conhost.exe -ArgumentList "powershell.exe -ExecutionPolicy Bypass -NoExit -WindowStyle Normal -File `"$PSCommandPath`" -Module Master"
+    # Initial Launch - Force New Window using CMD START (Nuclear Option for Detaching)
+    # We use the resolved $CurrentScript path which now definitely exists on disk.
+    Start-Process cmd -ArgumentList "/c start `"CyberApocalypse`" powershell -ExecutionPolicy Bypass -NoExit -WindowStyle Maximized -File `"$CurrentScript`" -Module Master" -WindowStyle Hidden
     exit
 }
-elseif ($Module -eq "Master") { Run-Master }
-elseif ($Module -eq "Matrix") { Run-Matrix }
-elseif ($Module -eq "Map") { Run-Map }
-elseif ($Module -eq "Hex") { Run-Hex }
-elseif ($Module -eq "Chat") { Run-Chat }
-elseif ($Module -eq "Infection") { Run-Infection }
-elseif ($Module -eq "Glitch") { Run-Glitch }
+
+try {
+    if ($Module -eq "Master") { Run-Master }
+    elseif ($Module -eq "Matrix") { Run-Matrix }
+    elseif ($Module -eq "Map") { Run-Map }
+    elseif ($Module -eq "Hex") { Run-Hex }
+    elseif ($Module -eq "Chat") { Run-Chat }
+    elseif ($Module -eq "Infection") { Run-Infection }
+    elseif ($Module -eq "Glitch") { Run-Glitch }
+}
+catch {
+    Write-Host "CRITICAL ERROR: $_" -ForegroundColor Red
+    Read-Host "Press Enter to exit..."
+}
 
 # Cleanup if stopped
 Clear-Host
