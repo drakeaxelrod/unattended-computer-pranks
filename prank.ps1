@@ -6,17 +6,44 @@
 # ============================================================================
 
 param(
-    [string]$Module = "Launcher",  # Launcher, Master, Matrix, Map, Hex, Chat, Glitch
+    [string]$Module = "Launcher",  # Launcher, Master, Matrix, Map, Hex, Chat, Glitch, Infection
     [int]$Generation = 0
 )
 
 # Global Configuration
 $global:flagFile = "$env:TEMP\cyberApocalypseFlag.tmp"
+$global:inputBuffer = ""
+
+# Global Error Trap to prevent immediate closure on crash
+trap {
+    Write-Host "CRITICAL SCRIPT ERROR: $_" -ForegroundColor Red
+    Write-Host "At Line: $($_.InvocationInfo.ScriptLineNumber)" -ForegroundColor Red
+    Read-Host "Press Enter to exit..."
+    exit
+}
+
 # ============================================================================
 # CORE UTILITIES
 # ============================================================================
 
 function Should-Stop {
+    # 1. Check for "secret" typing in ANY window
+    if ($host.UI.RawUI.KeyAvailable) {
+        $k = $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+        if ($k.Character -ne 0) {
+            $global:inputBuffer += $k.Character
+            # Keep buffer short to prevent memory issues
+            if ($global:inputBuffer.Length -gt 20) {
+                $global:inputBuffer = $global:inputBuffer.Substring($global:inputBuffer.Length - 10)
+            }
+            # Check for secret code
+            if ($global:inputBuffer -match "secret") {
+                New-Item -Path $global:flagFile -ItemType File -Force | Out-Null
+            }
+        }
+    }
+
+    # 2. Check if flag file exists
     return (Test-Path $global:flagFile)
 }
 
@@ -389,16 +416,20 @@ if (-not $CurrentScript -or -not (Test-Path $CurrentScript -ErrorAction Silently
     }
 }
 
-Start-Safety-Net
+# REMOVED: Start-Safety-Net (It was causing issues and is now integrated into Should-Stop)
 
 if ($Module -eq "Launcher") {
     # Initial Launch - Force New Window using CMD START (Nuclear Option for Detaching)
     # We use the resolved $CurrentScript path which now definitely exists on disk.
-    Start-Process cmd -ArgumentList "/c start `"CyberApocalypse`" powershell -ExecutionPolicy Bypass -NoExit -WindowStyle Maximized -File `"$CurrentScript`" -Module Master" -WindowStyle Hidden
+    # Changed WindowStyle to Normal to avoid "Maximized" movement glitches.
+    Start-Process cmd -ArgumentList "/c start `"CyberApocalypse`" powershell -ExecutionPolicy Bypass -NoExit -WindowStyle Normal -File `"$CurrentScript`" -Module Master" -WindowStyle Hidden
     exit
 }
 
 try {
+    # Remove the old Start-Safety-Net call as it's now integrated into Should-Stop
+    # Start-Safety-Net
+
     if ($Module -eq "Master") { Run-Master }
     elseif ($Module -eq "Matrix") { Run-Matrix }
     elseif ($Module -eq "Map") { Run-Map }
