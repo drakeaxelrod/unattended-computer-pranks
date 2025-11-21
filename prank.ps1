@@ -280,28 +280,28 @@ function Show-ASCIIBanner {
 
     $banners = @{
         "Breach" = @"
-  ██████╗ ██████╗ ███████╗ █████╗  ██████╗██╗  ██╗
-  ██╔══██╗██╔══██╗██╔════╝██╔══██╗██╔════╝██║  ██║
-  ██████╔╝██████╔╝█████╗  ███████║██║     ███████║
-  ██╔══██╗██╔══██╗██╔══╝  ██╔══██║██║     ██╔══██║
-  ██████╔╝██║  ██║███████╗██║  ██║╚██████╗██║  ██║
-  ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝
+  ██████+ ██████+ ███████+ █████+  ██████+██+  ██+
+  ██+==██+██+==██+██+====╝██+==██+██+====╝██|  ██|
+  ██████+╝██████+╝█████+  ███████|██|     ███████|
+  ██+==██+██+==██+██+==╝  ██+==██|██|     ██+==██|
+  ██████+╝██|  ██|███████+██|  ██|+██████+██|  ██|
+  +=====╝ +=╝  +=╝+======╝+=╝  +=╝ +=====╝+=╝  +=╝
 "@
         "Ransomware" = @"
-  ██████╗  █████╗ ███╗   ██╗███████╗ ██████╗ ███╗   ███╗
-  ██╔══██╗██╔══██╗████╗  ██║██╔════╝██╔═══██╗████╗ ████║
-  ██████╔╝███████║██╔██╗ ██║███████╗██║   ██║██╔████╔██║
-  ██╔══██╗██╔══██║██║╚██╗██║╚════██║██║   ██║██║╚██╔╝██║
-  ██║  ██║██║  ██║██║ ╚████║███████║╚██████╔╝██║ ╚═╝ ██║
-  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝ ╚═════╝ ╚═╝     ╚═╝
+  ██████+  █████+ ███+   ██+███████+ ██████+ ███+   ███+
+  ██+==██+██+==██+████+  ██|██+====╝██+===██+████+ ████|
+  ██████+╝███████|██+██+ ██|███████+██|   ██|██+████+██|
+  ██+==██+██+==██|██|+██+██|+====██|██|   ██|██|+██+╝██|
+  ██|  ██|██|  ██|██| +████|███████|+██████+╝██| +=╝ ██|
+  +=╝  +=╝+=╝  +=╝+=╝  +===╝+======╝ +=====╝ +=╝     +=╝
 "@
         "Omega" = @"
-   ██████╗ ███╗   ███╗███████╗ ██████╗  █████╗
-  ██╔═══██╗████╗ ████║██╔════╝██╔════╝ ██╔══██╗
-  ██║   ██║██╔████╔██║█████╗  ██║  ███╗███████║
-  ██║   ██║██║╚██╔╝██║██╔══╝  ██║   ██║██╔══██║
-  ╚██████╔╝██║ ╚═╝ ██║███████╗╚██████╔╝██║  ██║
-   ╚═════╝ ╚═╝     ╚═╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝
+   ██████+ ███+   ███+███████+ ██████+  █████+
+  ██+===██+████+ ████|██+====╝██+====╝ ██+==██+
+  ██|   ██|██+████+██|█████+  ██|  ███+███████|
+  ██|   ██|██|+██+╝██|██+==╝  ██|   ██|██+==██|
+  +██████+╝██| +=╝ ██|███████++██████+╝██|  ██|
+   +=====╝ +=╝     +=╝+======╝ +=====╝ +=╝  +=╝
 "@
     }
 
@@ -451,9 +451,9 @@ function Run-Ransomware {
         Should-Pause
         Clear-Host
 
-        Write-Host "`n╔═══════════════════════════════════════════════════════════════════╗" -ForegroundColor Red
-        Write-Host "║         YOUR FILES HAVE BEEN ENCRYPTED - PAY 5 BTC NOW!          ║" -ForegroundColor White -BackgroundColor DarkRed
-        Write-Host "╚═══════════════════════════════════════════════════════════════════╝" -ForegroundColor Red
+        Write-Host "`n+===================================================================+" -ForegroundColor Red
+        Write-Host "|         YOUR FILES HAVE BEEN ENCRYPTED - PAY 5 BTC NOW!          |" -ForegroundColor White -BackgroundColor DarkRed
+        Write-Host "+===================================================================╝" -ForegroundColor Red
 
         # Countdown timer
         $timeLeft = 300 - (Get-Random -Max 150)
@@ -471,7 +471,7 @@ function Run-Ransomware {
             $count = Get-Random -Min 10 -Max 500
 
             Write-Host "  [" -NoNewline -ForegroundColor DarkGray
-            Write-Host "✓" -NoNewline -ForegroundColor Red
+            Write-Host "+" -NoNewline -ForegroundColor Red
             Write-Host "] $path\$type ($count files) " -NoNewline -ForegroundColor Gray
             Write-Host "ENCRYPTED" -ForegroundColor Red
 
@@ -500,9 +500,9 @@ function Run-Keylogger {
         Should-Pause
         Clear-Host
 
-        Write-Host "`n  ╔══════════════════════════════════════════════════╗" -ForegroundColor DarkMagenta
-        Write-Host "  ║    KEYLOGGER ACTIVE - CAPTURING ALL INPUT       ║" -ForegroundColor Magenta
-        Write-Host "  ╚══════════════════════════════════════════════════╝`n" -ForegroundColor DarkMagenta
+        Write-Host "`n  +==================================================+" -ForegroundColor DarkMagenta
+        Write-Host "  |    KEYLOGGER ACTIVE - CAPTURING ALL INPUT       |" -ForegroundColor Magenta
+        Write-Host "  +==================================================╝`n" -ForegroundColor DarkMagenta
 
         for ($i = 0; $i -lt 15; $i++) {
             if (Should-Stop) { return }
@@ -553,9 +553,9 @@ function Run-LateralMovement {
         Should-Pause
         Clear-Host
 
-        Write-Host "`n  ═══════════════════════════════════════════════════════" -ForegroundColor Cyan
+        Write-Host "`n  =======================================================" -ForegroundColor Cyan
         Write-Host "  [*] NETWORK PENETRATION - LATERAL MOVEMENT IN PROGRESS" -ForegroundColor Yellow
-        Write-Host "  ═══════════════════════════════════════════════════════`n" -ForegroundColor Cyan
+        Write-Host "  =======================================================`n" -ForegroundColor Cyan
 
         foreach ($node in $network) {
             if (Should-Stop) { return }
@@ -610,9 +610,9 @@ function Run-DataExfil {
         Should-Pause
         Clear-Host
 
-        Write-Host "`n  ╔════════════════════════════════════════════════════════╗" -ForegroundColor Red
-        Write-Host "  ║   DATA EXFILTRATION IN PROGRESS - DO NOT SHUT DOWN   ║" -ForegroundColor White
-        Write-Host "  ╚════════════════════════════════════════════════════════╝`n" -ForegroundColor Red
+        Write-Host "`n  +========================================================+" -ForegroundColor Red
+        Write-Host "  |   DATA EXFILTRATION IN PROGRESS - DO NOT SHUT DOWN   |" -ForegroundColor White
+        Write-Host "  +========================================================╝`n" -ForegroundColor Red
 
         $target = Get-Random $dataTypes
         $server = Get-Random $c2Servers
@@ -677,11 +677,11 @@ function Run-Infection {
             $remaining = $duration - [int]((Get-Date) - $startTime).TotalSeconds
             $pc = Get-Random $fakeComputers
             $msg = Get-Random $messages
-            Write-Host "`n  ╔════════════════════════════════════════════════════════════════╗" -ForegroundColor Red
-            Write-Host ("  ║ [!] INFECTION SPREADING - NODES COMPROMISED: {0,-15} ║" -f "$remaining") -ForegroundColor Yellow
-            Write-Host "  ╚════════════════════════════════════════════════════════════════╝" -ForegroundColor Red
-            Write-Host ("    ► TARGET NODE: {0}" -f $pc) -ForegroundColor Cyan
-            Write-Host ("    ► STATUS: {0}" -f $msg) -ForegroundColor Magenta
+            Write-Host "`n  +================================================================+" -ForegroundColor Red
+            Write-Host ("  | [!] INFECTION SPREADING - NODES COMPROMISED: {0,-15} |" -f "$remaining") -ForegroundColor Yellow
+            Write-Host "  +================================================================╝" -ForegroundColor Red
+            Write-Host ("    > TARGET NODE: {0}" -f $pc) -ForegroundColor Cyan
+            Write-Host ("    > STATUS: {0}" -f $msg) -ForegroundColor Magenta
             Start-Sleep -Milliseconds 400
         }
         Move-Window-Random
@@ -814,9 +814,9 @@ function Run-Master {
     Start-Sleep -Seconds 2
 
     Write-Host "`n"
-    Write-Host "  ╔══════════════════════════════════════════════════════════════════════╗" -ForegroundColor Red
-    Write-Host "  ║     CRITICAL SECURITY ALERT - UNAUTHORIZED ROOT ACCESS DETECTED      ║" -ForegroundColor Red
-    Write-Host "  ╚══════════════════════════════════════════════════════════════════════╝" -ForegroundColor Red
+    Write-Host "  +======================================================================+" -ForegroundColor Red
+    Write-Host "  |     CRITICAL SECURITY ALERT - UNAUTHORIZED ROOT ACCESS DETECTED      |" -ForegroundColor Red
+    Write-Host "  +======================================================================╝" -ForegroundColor Red
     Play-Sound "alert"
     Start-Sleep -Seconds 2
 
@@ -836,9 +836,9 @@ function Run-Master {
         switch ($phase) {
             1 {
                 # Initial Access & Reconnaissance
-                Write-Host "`n  ╔════════════════════════════════════════════════════════════╗" -ForegroundColor Cyan
-                Write-Host "  ║ PHASE 1: INITIAL ACCESS & RECONNAISSANCE                  ║" -ForegroundColor Cyan
-                Write-Host "  ╚════════════════════════════════════════════════════════════╝`n" -ForegroundColor Cyan
+                Write-Host "`n  +============================================================+" -ForegroundColor Cyan
+                Write-Host "  | PHASE 1: INITIAL ACCESS & RECONNAISSANCE                  |" -ForegroundColor Cyan
+                Write-Host "  +============================================================╝`n" -ForegroundColor Cyan
 
                 Show-Educational "Initial Access" "Attackers use spear-phishing (CVE-2023-23397), drive-by downloads, or exploit public-facing applications to gain initial foothold."
 
@@ -856,9 +856,9 @@ function Run-Master {
             }
             2 {
                 # Privilege Escalation
-                Write-Host "`n  ╔════════════════════════════════════════════════════════════╗" -ForegroundColor Yellow
-                Write-Host "  ║ PHASE 2: PRIVILEGE ESCALATION                             ║" -ForegroundColor Yellow
-                Write-Host "  ╚════════════════════════════════════════════════════════════╝`n" -ForegroundColor Yellow
+                Write-Host "`n  +============================================================+" -ForegroundColor Yellow
+                Write-Host "  | PHASE 2: PRIVILEGE ESCALATION                             |" -ForegroundColor Yellow
+                Write-Host "  +============================================================╝`n" -ForegroundColor Yellow
 
                 Show-Educational "Privilege Escalation" "Attackers escalate from normal user to SYSTEM/Administrator using exploits like PrintNightmare or misconfigured services."
 
@@ -867,7 +867,7 @@ function Run-Master {
                 Type-Text "  [+] Exploiting Print Spooler service..." "Yellow" -fast
                 Show-HackProgress "ESCALATING TO NT AUTHORITY\SYSTEM" "Yellow" -realistic
 
-                Type-Text "`n  [✓] Privileges escalated successfully" "Green" -fast
+                Type-Text "`n  [+] Privileges escalated successfully" "Green" -fast
                 Type-Text "  [+] Current User: NT AUTHORITY\SYSTEM" "Green" -fast
                 Play-Sound "access"
 
@@ -876,9 +876,9 @@ function Run-Master {
             }
             3 {
                 # Credential Dumping
-                Write-Host "`n  ╔════════════════════════════════════════════════════════════╗" -ForegroundColor Magenta
-                Write-Host "  ║ PHASE 3: CREDENTIAL HARVESTING                            ║" -ForegroundColor Magenta
-                Write-Host "  ╚════════════════════════════════════════════════════════════╝`n" -ForegroundColor Magenta
+                Write-Host "`n  +============================================================+" -ForegroundColor Magenta
+                Write-Host "  | PHASE 3: CREDENTIAL HARVESTING                            |" -ForegroundColor Magenta
+                Write-Host "  +============================================================╝`n" -ForegroundColor Magenta
 
                 Show-Educational "Credential Dumping" "Tools like Mimikatz extract credentials from memory. Defend with Credential Guard and monitor LSASS access."
 
@@ -894,7 +894,7 @@ function Run-Master {
                 )
                 foreach ($cred in $creds) {
                     if (Should-Stop) { break }
-                    Type-Text "  [✓] $cred" "Green" -fast
+                    Type-Text "  [+] $cred" "Green" -fast
                     Play-Sound "data"
                 }
 
@@ -903,9 +903,9 @@ function Run-Master {
             }
             4 {
                 # Lateral Movement
-                Write-Host "`n  ╔════════════════════════════════════════════════════════════╗" -ForegroundColor Red
-                Write-Host "  ║ PHASE 4: LATERAL MOVEMENT                                 ║" -ForegroundColor Red
-                Write-Host "  ╚════════════════════════════════════════════════════════════╝`n" -ForegroundColor Red
+                Write-Host "`n  +============================================================+" -ForegroundColor Red
+                Write-Host "  | PHASE 4: LATERAL MOVEMENT                                 |" -ForegroundColor Red
+                Write-Host "  +============================================================╝`n" -ForegroundColor Red
 
                 Show-Educational "Lateral Movement" "Pass-the-Hash, RDP hijacking, and PSExec allow attackers to move between systems. Use network segmentation and monitor for suspicious authentication."
 
@@ -923,9 +923,9 @@ function Run-Master {
             }
             5 {
                 # Persistence
-                Write-Host "`n  ╔════════════════════════════════════════════════════════════╗" -ForegroundColor DarkYellow
-                Write-Host "  ║ PHASE 5: ESTABLISHING PERSISTENCE                         ║" -ForegroundColor DarkYellow
-                Write-Host "  ╚════════════════════════════════════════════════════════════╝`n" -ForegroundColor DarkYellow
+                Write-Host "`n  +============================================================+" -ForegroundColor DarkYellow
+                Write-Host "  | PHASE 5: ESTABLISHING PERSISTENCE                         |" -ForegroundColor DarkYellow
+                Write-Host "  +============================================================╝`n" -ForegroundColor DarkYellow
 
                 Show-Educational "Persistence" "Attackers create backdoors via scheduled tasks, registry keys, or WMI event subscriptions to maintain access even after reboots."
 
@@ -942,7 +942,7 @@ function Run-Master {
                     Play-Sound "scanning"
                     Start-Sleep -Milliseconds 500
                 }
-                Type-Text "`n  [✓] Persistence mechanisms deployed" "Green" -fast
+                Type-Text "`n  [+] Persistence mechanisms deployed" "Green" -fast
                 Play-Sound "success"
 
                 Spawn-Module "Infection"
@@ -950,9 +950,9 @@ function Run-Master {
             }
             6 {
                 # Data Exfiltration
-                Write-Host "`n  ╔════════════════════════════════════════════════════════════╗" -ForegroundColor Cyan
-                Write-Host "  ║ PHASE 6: DATA EXFILTRATION                                ║" -ForegroundColor Cyan
-                Write-Host "  ╚════════════════════════════════════════════════════════════╝`n" -ForegroundColor Cyan
+                Write-Host "`n  +============================================================+" -ForegroundColor Cyan
+                Write-Host "  | PHASE 6: DATA EXFILTRATION                                |" -ForegroundColor Cyan
+                Write-Host "  +============================================================╝`n" -ForegroundColor Cyan
 
                 Show-Educational "Data Exfiltration" "Sensitive data is stolen over encrypted channels. Monitor for unusual data transfers and use DLP solutions."
 
@@ -968,9 +968,9 @@ function Run-Master {
             }
             7 {
                 # Ransomware Deployment
-                Write-Host "`n  ╔════════════════════════════════════════════════════════════╗" -ForegroundColor Red
-                Write-Host "  ║ PHASE 7: RANSOMWARE DEPLOYMENT                            ║" -ForegroundColor Red
-                Write-Host "  ╚════════════════════════════════════════════════════════════╝`n" -ForegroundColor Red
+                Write-Host "`n  +============================================================+" -ForegroundColor Red
+                Write-Host "  | PHASE 7: RANSOMWARE DEPLOYMENT                            |" -ForegroundColor Red
+                Write-Host "  +============================================================╝`n" -ForegroundColor Red
 
                 Show-Educational "Ransomware" "Final stage: encrypt files and demand ransom. Prevention: backups, EDR, and segmentation. Never pay ransoms!"
 
@@ -985,9 +985,9 @@ function Run-Master {
             }
             8 {
                 # Maximum Chaos
-                Write-Host "`n  ╔════════════════════════════════════════════════════════════╗" -ForegroundColor White -BackgroundColor DarkRed
-                Write-Host "  ║ PHASE 8: TOTAL NETWORK COMPROMISE                         ║" -ForegroundColor White -BackgroundColor DarkRed
-                Write-Host "  ╚════════════════════════════════════════════════════════════╝`n" -ForegroundColor White
+                Write-Host "`n  +============================================================+" -ForegroundColor White -BackgroundColor DarkRed
+                Write-Host "  | PHASE 8: TOTAL NETWORK COMPROMISE                         |" -ForegroundColor White -BackgroundColor DarkRed
+                Write-Host "  +============================================================╝`n" -ForegroundColor White
 
                 Show-SystemAlert "CRITICAL BREACH" "ALL SYSTEMS COMPROMISED - CONTACT INCIDENT RESPONSE" "Red"
 
@@ -1020,28 +1020,28 @@ function Run-Master {
 function Show-Consent {
     Clear-Host
     Write-Host "`n`n"
-    Write-Host "  ╔══════════════════════════════════════════════════════════════════════╗" -ForegroundColor Cyan
-    Write-Host "  ║                 SECURITY AWARENESS TRAINING DEMO                     ║" -ForegroundColor Cyan
-    Write-Host "  ╠══════════════════════════════════════════════════════════════════════╣" -ForegroundColor Cyan
-    Write-Host "  ║                                                                      ║" -ForegroundColor White
-    Write-Host "  ║  This is a simulated cyber attack demonstration for educational     ║" -ForegroundColor White
-    Write-Host "  ║  purposes only. No actual harm will occur to your system.           ║" -ForegroundColor White
-    Write-Host "  ║                                                                      ║" -ForegroundColor White
-    Write-Host "  ║  What this demo will show:                                          ║" -ForegroundColor White
-    Write-Host "  ║  • Realistic attack scenarios and techniques                        ║" -ForegroundColor Gray
-    Write-Host "  ║  • Multiple windows with various attack simulations                 ║" -ForegroundColor Gray
-    Write-Host "  ║  • Educational information about each attack phase                  ║" -ForegroundColor Gray
-    Write-Host "  ║                                                                      ║" -ForegroundColor White
-    Write-Host "  ║  To STOP at any time:                                               ║" -ForegroundColor Yellow
-    Write-Host "  ║  • Press ESC key                                                    ║" -ForegroundColor Green
-    Write-Host "  ║  • Press Ctrl+C                                                     ║" -ForegroundColor Green
-    Write-Host "  ║  • Type 'secret' (without quotes)                                   ║" -ForegroundColor Green
-    Write-Host "  ║                                                                      ║" -ForegroundColor White
-    Write-Host "  ║  Current Settings:                                                  ║" -ForegroundColor Cyan
-    Write-Host "  ║  • Intensity: $($global:config.Intensity.PadRight(54)) ║" -ForegroundColor White
-    Write-Host "  ║  • Mode: $($global:config.Mode.PadRight(59)) ║" -ForegroundColor White
-    Write-Host "  ║                                                                      ║" -ForegroundColor White
-    Write-Host "  ╚══════════════════════════════════════════════════════════════════════╝" -ForegroundColor Cyan
+    Write-Host "  +======================================================================+" -ForegroundColor Cyan
+    Write-Host "  |                 SECURITY AWARENESS TRAINING DEMO                     |" -ForegroundColor Cyan
+    Write-Host "  +======================================================================+" -ForegroundColor Cyan
+    Write-Host "  |                                                                      |" -ForegroundColor White
+    Write-Host "  |  This is a simulated cyber attack demonstration for educational     |" -ForegroundColor White
+    Write-Host "  |  purposes only. No actual harm will occur to your system.           |" -ForegroundColor White
+    Write-Host "  |                                                                      |" -ForegroundColor White
+    Write-Host "  |  What this demo will show:                                          |" -ForegroundColor White
+    Write-Host "  |  - Realistic attack scenarios and techniques                        |" -ForegroundColor Gray
+    Write-Host "  |  - Multiple windows with various attack simulations                 |" -ForegroundColor Gray
+    Write-Host "  |  - Educational information about each attack phase                  |" -ForegroundColor Gray
+    Write-Host "  |                                                                      |" -ForegroundColor White
+    Write-Host "  |  To STOP at any time:                                               |" -ForegroundColor Yellow
+    Write-Host "  |  - Press ESC key                                                    |" -ForegroundColor Green
+    Write-Host "  |  - Press Ctrl+C                                                     |" -ForegroundColor Green
+    Write-Host "  |  - Type 'secret' (without quotes)                                   |" -ForegroundColor Green
+    Write-Host "  |                                                                      |" -ForegroundColor White
+    Write-Host "  |  Current Settings:                                                  |" -ForegroundColor Cyan
+    Write-Host "  |  - Intensity: $($global:config.Intensity.PadRight(54)) |" -ForegroundColor White
+    Write-Host "  |  - Mode: $($global:config.Mode.PadRight(59)) |" -ForegroundColor White
+    Write-Host "  |                                                                      |" -ForegroundColor White
+    Write-Host "  +======================================================================+" -ForegroundColor Cyan
     Write-Host "`n"
 
     $response = Read-Host "  Press ENTER to begin the demonstration, or Ctrl+C to exit"
@@ -1050,36 +1050,36 @@ function Show-Consent {
 function Show-Debrief {
     Clear-Host
     Write-Host "`n`n"
-    Write-Host "  ╔══════════════════════════════════════════════════════════════════════╗" -ForegroundColor Green
-    Write-Host "  ║              SECURITY AWARENESS TRAINING - DEBRIEF                   ║" -ForegroundColor Green
-    Write-Host "  ╠══════════════════════════════════════════════════════════════════════╣" -ForegroundColor Green
-    Write-Host "  ║                                                                      ║" -ForegroundColor White
-    Write-Host "  ║  Key Takeaways from this Demonstration:                             ║" -ForegroundColor White
-    Write-Host "  ║                                                                      ║" -ForegroundColor White
-    Write-Host "  ║  1. Multi-Stage Attacks: Real attacks follow a kill chain           ║" -ForegroundColor Cyan
-    Write-Host "  ║     Initial Access → Escalation → Persistence → Exfiltration        ║" -ForegroundColor Gray
-    Write-Host "  ║                                                                      ║" -ForegroundColor White
-    Write-Host "  ║  2. Defense Strategies:                                             ║" -ForegroundColor Cyan
-    Write-Host "  ║     • Keep systems patched (CVEs shown are real!)                   ║" -ForegroundColor Gray
-    Write-Host "  ║     • Use EDR/XDR solutions to detect anomalies                     ║" -ForegroundColor Gray
-    Write-Host "  ║     • Implement network segmentation                                ║" -ForegroundColor Gray
-    Write-Host "  ║     • Enable MFA and Credential Guard                               ║" -ForegroundColor Gray
-    Write-Host "  ║     • Maintain offline backups (ransomware protection)              ║" -ForegroundColor Gray
-    Write-Host "  ║     • Security awareness training for all staff                     ║" -ForegroundColor Gray
-    Write-Host "  ║                                                                      ║" -ForegroundColor White
-    Write-Host "  ║  3. Incident Response:                                              ║" -ForegroundColor Cyan
-    Write-Host "  ║     • Have an IR plan ready before an attack                        ║" -ForegroundColor Gray
-    Write-Host "  ║     • Practice tabletop exercises regularly                         ║" -ForegroundColor Gray
-    Write-Host "  ║     • Know your escalation contacts                                 ║" -ForegroundColor Gray
-    Write-Host "  ║                                                                      ║" -ForegroundColor White
-    Write-Host "  ║  4. Report Suspicious Activity:                                     ║" -ForegroundColor Cyan
-    Write-Host "  ║     • If you see something unusual, report it immediately           ║" -ForegroundColor Gray
-    Write-Host "  ║     • Don't click suspicious links or open unknown attachments      ║" -ForegroundColor Gray
-    Write-Host "  ║     • Verify requests for sensitive information                     ║" -ForegroundColor Gray
-    Write-Host "  ║                                                                      ║" -ForegroundColor White
-    Write-Host "  ╠══════════════════════════════════════════════════════════════════════╣" -ForegroundColor Green
-    Write-Host "  ║  Remember: Security is everyone's responsibility!                   ║" -ForegroundColor Yellow
-    Write-Host "  ╚══════════════════════════════════════════════════════════════════════╝" -ForegroundColor Green
+    Write-Host "  +======================================================================+" -ForegroundColor Green
+    Write-Host "  |              SECURITY AWARENESS TRAINING - DEBRIEF                   |" -ForegroundColor Green
+    Write-Host "  +======================================================================+" -ForegroundColor Green
+    Write-Host "  |                                                                      |" -ForegroundColor White
+    Write-Host "  |  Key Takeaways from this Demonstration:                             |" -ForegroundColor White
+    Write-Host "  |                                                                      |" -ForegroundColor White
+    Write-Host "  |  1. Multi-Stage Attacks: Real attacks follow a kill chain           |" -ForegroundColor Cyan
+    Write-Host "  |     Initial Access -> Escalation -> Persistence -> Exfiltration     |" -ForegroundColor Gray
+    Write-Host "  |                                                                      |" -ForegroundColor White
+    Write-Host "  |  2. Defense Strategies:                                             |" -ForegroundColor Cyan
+    Write-Host "  |     - Keep systems patched (CVEs shown are real!)                   |" -ForegroundColor Gray
+    Write-Host "  |     - Use EDR/XDR solutions to detect anomalies                     |" -ForegroundColor Gray
+    Write-Host "  |     - Implement network segmentation                                |" -ForegroundColor Gray
+    Write-Host "  |     - Enable MFA and Credential Guard                               |" -ForegroundColor Gray
+    Write-Host "  |     - Maintain offline backups (ransomware protection)              |" -ForegroundColor Gray
+    Write-Host "  |     - Security awareness training for all staff                     |" -ForegroundColor Gray
+    Write-Host "  |                                                                      |" -ForegroundColor White
+    Write-Host "  |  3. Incident Response:                                              |" -ForegroundColor Cyan
+    Write-Host "  |     - Have an IR plan ready before an attack                        |" -ForegroundColor Gray
+    Write-Host "  |     - Practice tabletop exercises regularly                         |" -ForegroundColor Gray
+    Write-Host "  |     - Know your escalation contacts                                 |" -ForegroundColor Gray
+    Write-Host "  |                                                                      |" -ForegroundColor White
+    Write-Host "  |  4. Report Suspicious Activity:                                     |" -ForegroundColor Cyan
+    Write-Host "  |     - If you see something unusual, report it immediately           |" -ForegroundColor Gray
+    Write-Host "  |     - Don't click suspicious links or open unknown attachments      |" -ForegroundColor Gray
+    Write-Host "  |     - Verify requests for sensitive information                     |" -ForegroundColor Gray
+    Write-Host "  |                                                                      |" -ForegroundColor White
+    Write-Host "  +======================================================================+" -ForegroundColor Green
+    Write-Host "  |  Remember: Security is everyone's responsibility!                   |" -ForegroundColor Yellow
+    Write-Host "  +======================================================================+" -ForegroundColor Green
     Write-Host "`n"
 
     Read-Host "  Press ENTER to exit"
