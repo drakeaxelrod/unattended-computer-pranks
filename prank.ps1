@@ -2,7 +2,7 @@
 # CYBER APOCALYPSE - UNSTOPPABLE EDITION
 # ============================================================================
 # WARNING: ULTRA PERSISTENT! Spawns multiple windows that respawn when closed!
-# Type "S3cr3t" (no prompt) in ANY window to stop the madness!
+# Type "secret" (no prompt) in ANY window to stop the madness!
 # Closing windows won't help - they multiply! MUAHAHAHA!
 # ============================================================================
 
@@ -161,7 +161,69 @@ function Start-WindowMonitor {
     Start-Job -ScriptBlock $scriptBlock -ArgumentList $PSCommandPath, $global:flagFile, $global:processTracker, $PID, $generation | Out-Null
 }
 
-# Type text with glitch effect
+# Sound Effect Helper
+function Play-Sound {
+    param([string]$type)
+    if ($type -eq "type") { [console]::beep(1200, 20) }
+    if ($type -eq "alert") { [console]::beep(500, 300); [console]::beep(500, 300) }
+    if ($type -eq "error") { [console]::beep(200, 400) }
+    if ($type -eq "success") { [console]::beep(1000, 100); [console]::beep(1500, 100) }
+    if ($type -eq "data") { [console]::beep((Get-Random -Min 800 -Max 2000), 10) }
+}
+
+# System Alert Box
+function Show-SystemAlert {
+    param([string]$title, [string]$message, [string]$color="Red")
+    $width = 60
+    $padding = [math]::Floor(($width - $message.Length) / 2)
+    $padStr = " " * $padding
+
+    Write-Host "`n"
+    Write-Host "  ╔$([string]('═' * $width))╗" -ForegroundColor $color
+    Write-Host "  ║$([string](' ' * $width))║" -ForegroundColor $color
+    Write-Host "  ║$padStr$message$padStr ║" -ForegroundColor White -BackgroundColor $color
+    Write-Host "  ║$([string](' ' * $width))║" -ForegroundColor $color
+    Write-Host "  ╚$([string]('═' * $width))╝" -ForegroundColor $color
+    Play-Sound "alert"
+    Start-Sleep -Milliseconds 500
+}
+
+# ASCII World Map Infection
+function Show-WorldMap {
+    $map = @(
+        "       . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+        "     . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+        "   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+        "  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+        " . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+        " . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+        "  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+        "   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+        "     . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+        "       . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ."
+    )
+
+    Write-Host "`n  [ GLOBAL INFECTION TRACKER ]" -ForegroundColor Cyan
+    foreach ($line in $map) {
+        if (Should-Stop) { return }
+        foreach ($char in $line.ToCharArray()) {
+            if ($char -eq '.') {
+                if ((Get-Random -Max 10) -gt 7) {
+                    Write-Host "█" -NoNewline -ForegroundColor Red
+                } else {
+                    Write-Host "." -NoNewline -ForegroundColor DarkGreen
+                }
+            } else {
+                Write-Host $char -NoNewline -ForegroundColor White
+            }
+            Start-Sleep -Milliseconds 5
+        }
+        Write-Host ""
+    }
+    Write-Host "  [ STATUS: PANDEMIC LEVELS REACHED ]" -ForegroundColor Red
+}
+
+# Type text with glitch effect and sound
 function Type-Text {
     param([string]$text, [string]$color = 'Green', [int]$speed = 20, [switch]$glitch)
     foreach ($char in $text.ToCharArray()) {
@@ -170,10 +232,12 @@ function Type-Text {
         if ($glitch -and (Get-Random -Minimum 1 -Maximum 10) -eq 5) {
             $glitchChar = Get-Random -InputObject @('█', '▓', '▒', '░', '@', '#', '$', '%', '&', '*')
             Write-Host $glitchChar -NoNewline -ForegroundColor (Get-Random $colors)
+            Play-Sound "data"
             Start-Sleep -Milliseconds 50
             Write-Host "`b$char" -NoNewline -ForegroundColor $color
         } else {
             Write-Host $char -NoNewline -ForegroundColor $color
+            if ($char -ne ' ') { Play-Sound "type" }
         }
         Start-Sleep -Milliseconds $speed
     }
@@ -183,12 +247,20 @@ function Type-Text {
 # Matrix effect
 function Show-Matrix {
     param([int]$lines = 15, [switch]$intense)
-    $chars = if ($intense) { @('█', '▓', '▒', '░', '╔', '╗', '╚', '╝', '║', '═', 'X', '0', '1') } else { @('0', '1', '█', '▓', '▒', '░', 'X', '*', '#', '>', '<', '/', '\', '|') }
+    $chars = if ($intense) { @('█', '▓', '▒', '░', '╔', '╗', '╚', '╝', '║', '═', 'X', '0', '1', '⚡', '☠') } else { @('0', '1', '█', '▓', '▒', '░', 'X', '*', '#', '>', '<', '/', '\', '|') }
 
     for ($i = 0; $i -lt $lines; $i++) {
         if (Should-Stop) { return }
-        $randomText = -join ((0..100) | ForEach-Object { Get-Random -InputObject $chars })
-        Write-Host $randomText -ForegroundColor (Get-Random -InputObject $colors)
+        $lineLength = $host.UI.RawUI.WindowSize.Width - 1
+        $randomText = -join ((0..$lineLength) | ForEach-Object { Get-Random -InputObject $chars })
+
+        # Randomly highlight some lines
+        if ((Get-Random -Max 5) -eq 0) {
+            Write-Host $randomText -ForegroundColor White -BackgroundColor DarkGreen
+        } else {
+            Write-Host $randomText -ForegroundColor (Get-Random -InputObject $colors)
+        }
+        Play-Sound "data"
         Start-Sleep -Milliseconds 10
     }
 }
@@ -198,19 +270,25 @@ function Show-HackProgress {
     param([string]$task, [string]$color = 'Cyan', [switch]$fast)
     Write-Host "`n  [$task]" -ForegroundColor $color
     $progress = 0
-    $maxDelay = if ($fast) { 80 } else { 150 }
+    $maxDelay = if ($fast) { 50 } else { 100 }
 
     while ($progress -lt 100) {
         if (Should-Stop) { return }
-        $progress += Get-Random -Minimum 5 -Maximum 25
+        $progress += Get-Random -Minimum 2 -Maximum 15
         if ($progress -gt 100) { $progress = 100 }
 
-        $bar = "█" * [math]::Floor($progress / 2)
-        $space = "░" * (50 - [math]::Floor($progress / 2))
+        $width = 50
+        $filled = [math]::Floor(($progress / 100) * $width)
+        $empty = $width - $filled
+
+        $bar = "█" * $filled
+        $space = "░" * $empty
+
         Write-Host "`r  $bar$space $progress%" -NoNewline -ForegroundColor $color
-        Start-Sleep -Milliseconds (Get-Random -Minimum 20 -Maximum $maxDelay)
+        Start-Sleep -Milliseconds (Get-Random -Minimum 10 -Maximum $maxDelay)
     }
     Write-Host "`r  $('█' * 50) 100% ✓ COMPLETE" -ForegroundColor Green
+    Play-Sound "success"
 }
 
 # Infection spread
@@ -253,9 +331,29 @@ function Show-Glitch {
     param([int]$intensity = 5)
     for ($i = 0; $i -lt $intensity; $i++) {
         if (Should-Stop) { return }
-        $glitchText = -join ((0..120) | ForEach-Object { Get-Random -InputObject @('█', '▓', '▒', '░', '/', '\', '|', '-', 'X') })
-        $bg = Get-Random -InputObject @('Black', 'DarkRed', 'DarkBlue')
-        Write-Host $glitchText -ForegroundColor (Get-Random $colors) -BackgroundColor $bg
+        $glitchText = -join ((0..120) | ForEach-Object { Get-Random -InputObject @('█', '▓', '▒', '░', '/', '\', '|', '-', 'X', '⚡', '☠', '☢') })
+        $bg = Get-Random -InputObject @('Black', 'DarkRed', 'DarkBlue', 'DarkMagenta')
+        $fg = Get-Random $colors
+        Write-Host $glitchText -ForegroundColor $fg -BackgroundColor $bg
+    }
+}
+
+# Hex Dump Effect
+function Show-HexDump {
+    param([int]$lines = 15)
+    Write-Host "`n  [ MEMORY DUMP INITIATED ]" -ForegroundColor Cyan
+    for($i=0; $i -lt $lines; $i++) {
+        if (Should-Stop) { return }
+        $offset = "0x{0:X8}" -f (Get-Random -Max 2147483647)
+        $hexBytes = -join (1..8 | ForEach-Object { "{0:X2} " -f (Get-Random -Max 255) })
+        $hexBytes2 = -join (1..8 | ForEach-Object { "{0:X2} " -f (Get-Random -Max 255) })
+        $ascii = -join (1..16 | ForEach-Object {
+            $c = Get-Random -Min 33 -Max 126
+            if ($c -gt 126) { "." } else { [char]$c }
+        })
+
+        Write-Host "  $offset  $hexBytes  $hexBytes2  |$ascii|" -ForegroundColor DarkGreen
+        Start-Sleep -Milliseconds 20
     }
 }
 
@@ -264,7 +362,7 @@ function Start-PasswordListener {
     $scriptBlock = {
         param($flagFile)
         $password = ""
-        $target = "S3cr3t"
+        $target = "secret"
 
         while ($true) {
             if (Test-Path $flagFile) { break }
@@ -273,8 +371,9 @@ function Start-PasswordListener {
                 $key = [Console]::ReadKey($true)
                 $password += $key.KeyChar
 
-                if ($password.Length -gt 6) {
-                    $password = $password.Substring($password.Length - 6)
+                # Keep only the last length of target characters
+                if ($password.Length -gt $target.Length) {
+                    $password = $password.Substring($password.Length - $target.Length)
                 }
 
                 if ($password -eq $target) {
@@ -289,6 +388,43 @@ function Start-PasswordListener {
     Start-Job -ScriptBlock $scriptBlock -ArgumentList $global:flagFile | Out-Null
 }
 
+# Fake BIOS Boot Sequence
+function Show-BootSequence {
+    Clear-Host
+    $biosLines = @(
+        "PHOENIX BIOS 4.0 Release 6.0",
+        "Copyright 1985-2025 Phoenix Technologies Ltd.",
+        "All Rights Reserved",
+        "",
+        "CPU = Intel(R) Core(TM) i9-9900K CPU @ 5.00GHz",
+        "640K System RAM Passed",
+        "15360M Extended RAM Passed",
+        "512K Cache SRAM Passed",
+        "System BIOS shadowed",
+        "Video BIOS shadowed",
+        "Fixed Disk 0: QUANTUM FIREBALL 500GB",
+        "ATAPI CD-ROM: SONY CD-RW CRX100E",
+        "Mouse initialized",
+        "",
+        "Press <DEL> to enter SETUP",
+        "Booting from Hard Disk..."
+    )
+
+    foreach ($line in $biosLines) {
+        Write-Host $line -ForegroundColor Gray
+        Start-Sleep -Milliseconds 100
+    }
+    Start-Sleep -Seconds 1
+
+    Write-Host "`nLoading OS..." -ForegroundColor White
+    Start-Sleep -Seconds 1
+    Write-Host "KERNEL PANIC: CRITICAL ERROR DETECTED AT 0x00000000" -ForegroundColor Red -BackgroundColor Black
+    Play-Sound "error"
+    Start-Sleep -Milliseconds 500
+    Write-Host "INITIATING EMERGENCY OVERRIDE..." -ForegroundColor Yellow
+    Start-Sleep -Seconds 1
+}
+
 # ============================================================================
 # MAIN EXECUTION
 # ============================================================================
@@ -298,6 +434,8 @@ Clear-Host
 
 if (-not $child) {
     # PARENT WINDOW - Master Controller
+    Show-BootSequence
+
     $banner = Get-Random $banners
     Write-Host $banner -ForegroundColor Red
     Write-Host "`n"
@@ -347,7 +485,7 @@ while (-not (Should-Stop)) {
     Write-Host "  ╚══════════════════════════════════════════════════════════════════════╝" -ForegroundColor Yellow
 
     # Random attack sequence
-    $sequence = Get-Random -Minimum 1 -Maximum 8
+    $sequence = Get-Random -Minimum 1 -Maximum 11
 
     switch ($sequence) {
         1 {
@@ -421,6 +559,20 @@ while (-not (Should-Stop)) {
                 Type-Text "  ► ACTIVATING: $device" "Yellow" 12
                 Show-HackProgress "STREAMING DATA" "Yellow" -fast
             }
+        }
+        8 {
+            Write-Host "`n  [💾 PHASE 8: MEMORY CORRUPTION 💾]`n" -ForegroundColor Blue
+            Show-HexDump -lines 20
+            Type-Text "  >> SEGMENTATION FAULT AT 0x004F3A..." "Red" 10
+            Type-Text "  >> DUMPING CORE..." "Red" 10
+        }
+        9 {
+            Show-SystemAlert "CRITICAL ERROR" "SYSTEM INTEGRITY COMPROMISED" "Red"
+            Show-SystemAlert "WARNING" "UNAUTHORIZED REMOTE ACCESS DETECTED" "DarkRed"
+            Show-SystemAlert "ALERT" "DATA DESTRUCTION IMMINENT" "Magenta"
+        }
+        10 {
+            Show-WorldMap
         }
     }
 
