@@ -798,75 +798,207 @@ function Run-Master {
     Write-Host "Loading OMEGA KERNEL..." -ForegroundColor White
     Start-Sleep -Seconds 2
 
-    # 2. The Breach
+    # 2. The Initial Breach
     Clear-Host
-    Write-Host "`n`n"
+    Should-Pause
+    Show-ASCIIBanner "Breach"
+    Play-Sound "breach"
+    Start-Sleep -Seconds 2
+
+    Write-Host "`n"
     Write-Host "  ╔══════════════════════════════════════════════════════════════════════╗" -ForegroundColor Red
     Write-Host "  ║     CRITICAL SECURITY ALERT - UNAUTHORIZED ROOT ACCESS DETECTED      ║" -ForegroundColor Red
     Write-Host "  ╚══════════════════════════════════════════════════════════════════════╝" -ForegroundColor Red
     Play-Sound "alert"
     Start-Sleep -Seconds 2
 
-    Type-Text "  > INITIATING LOCKDOWN PROTOCOL..." "Red" 30
-    Type-Text "  > FAILED. ACCESS DENIED." "Red" 30
-    Type-Text "  > OMEGA AI TAKING CONTROL." "Yellow" 50
+    Type-Text "  > INITIATING LOCKDOWN PROTOCOL..." "Red"
+    Type-Text "  > FAILED. ACCESS DENIED." "Red"
+    Type-Text "  > OMEGA APT (Advanced Persistent Threat) TAKING CONTROL." "Yellow"
 
-    # 3. The Story Loop
+    Show-Educational "Initial Breach" "APT groups use sophisticated techniques to gain initial access. Common vectors: phishing emails, zero-day exploits, and supply chain attacks."
+
+    # 3. The Realistic Attack Kill Chain
     $phase = 1
     while (-not (Should-Stop)) {
+        Should-Pause
         Clear-Host
-        Write-Host "`n  [ SYSTEM STATUS: CRITICAL - PHASE $phase ]" -ForegroundColor Red
+        Write-Host "`n  [ APT KILL CHAIN: PHASE $phase ]" -ForegroundColor Red
 
         switch ($phase) {
             1 {
-                Write-Host "`n  [🔴 PHASE 1: NETWORK INFILTRATION 🔴]`n" -ForegroundColor Cyan
+                # Initial Access & Reconnaissance
+                Write-Host "`n  ╔════════════════════════════════════════════════════════════╗" -ForegroundColor Cyan
+                Write-Host "  ║ PHASE 1: INITIAL ACCESS & RECONNAISSANCE                  ║" -ForegroundColor Cyan
+                Write-Host "  ╚════════════════════════════════════════════════════════════╝`n" -ForegroundColor Cyan
+
+                Show-Educational "Initial Access" "Attackers use spear-phishing (CVE-2023-23397), drive-by downloads, or exploit public-facing applications to gain initial foothold."
+
+                Type-Text "  [+] Exploiting CVE-2023-23397 (Outlook Elevation of Privilege)" "Red" -fast
+                Type-Text "  [+] Payload delivered via malicious RTF document" "Yellow" -fast
+                Show-HackProgress "ESTABLISHING REVERSE SHELL" "Red" -realistic
+
+                Type-Text "`n  [+] Enumerating domain environment..." "Cyan" -fast
+                Type-Text "  [+] Discovered Domain Controller: DC01.CORP.LOCAL (10.0.0.10)" "Green" -fast
+                Type-Text "  [+] Active Directory Users: 2,847" "Green" -fast
+                Type-Text "  [+] Network Shares: 156 discovered" "Green" -fast
+
                 Spawn-Module "Matrix"
-                Show-HackProgress "PENETRATING FIREWALL" "Red" -fast
-                Show-HackProgress "ESCALATING PRIVILEGES" "Yellow" -fast
+                Start-Sleep -Seconds 3
             }
             2 {
-                Write-Host "`n  [💀 PHASE 2: DATA EXFILTRATION 💀]`n" -ForegroundColor Magenta
-                Spawn-Module "Infection"
-                Show-HackProgress "BYPASSING IDS/IPS" "Magenta" -fast
-                Start-Sleep -Seconds 5
+                # Privilege Escalation
+                Write-Host "`n  ╔════════════════════════════════════════════════════════════╗" -ForegroundColor Yellow
+                Write-Host "  ║ PHASE 2: PRIVILEGE ESCALATION                             ║" -ForegroundColor Yellow
+                Write-Host "  ╚════════════════════════════════════════════════════════════╝`n" -ForegroundColor Yellow
+
+                Show-Educational "Privilege Escalation" "Attackers escalate from normal user to SYSTEM/Administrator using exploits like PrintNightmare or misconfigured services."
+
+                Type-Text "  [+] Checking for privilege escalation vectors..." "Cyan" -fast
+                Type-Text "  [+] CVE-2021-34527 (PrintNightmare) - VULNERABLE!" "Red" -fast
+                Type-Text "  [+] Exploiting Print Spooler service..." "Yellow" -fast
+                Show-HackProgress "ESCALATING TO NT AUTHORITY\SYSTEM" "Yellow" -realistic
+
+                Type-Text "`n  [✓] Privileges escalated successfully" "Green" -fast
+                Type-Text "  [+] Current User: NT AUTHORITY\SYSTEM" "Green" -fast
+                Play-Sound "access"
+
+                Spawn-Module "Hex"
+                Start-Sleep -Seconds 3
             }
             3 {
-                Write-Host "`n  [⚡ PHASE 3: TOTAL SYSTEM TAKEOVER ⚡]`n" -ForegroundColor Red
-                Spawn-Module "Hex"
-                $files = @("//CLASSIFIED/AREA51.DAT", "//TOPSECRET/LAUNCH_CODES.SYS", "//SYSTEM/ROOT/MASTER_KEY.DB")
-                foreach ($file in $files) {
+                # Credential Dumping
+                Write-Host "`n  ╔════════════════════════════════════════════════════════════╗" -ForegroundColor Magenta
+                Write-Host "  ║ PHASE 3: CREDENTIAL HARVESTING                            ║" -ForegroundColor Magenta
+                Write-Host "  ╚════════════════════════════════════════════════════════════╝`n" -ForegroundColor Magenta
+
+                Show-Educational "Credential Dumping" "Tools like Mimikatz extract credentials from memory. Defend with Credential Guard and monitor LSASS access."
+
+                Type-Text "  [+] Dumping LSASS memory (lsass.exe PID: 724)..." "Cyan" -fast
+                Type-Text "  [+] Using Mimikatz 2.2.0 (Kiwi Processor)" "Yellow" -fast
+                Show-HackProgress "EXTRACTING CREDENTIALS FROM MEMORY" "Magenta" -realistic
+
+                $creds = @(
+                    "Administrator :: NTLM: 8846f7eaee8fb117ad06bdd830b7586c",
+                    "DomainAdmin :: NTLM: 2b576acbe6bcfda7294d6bd18041b8fe",
+                    "SQLService :: Kerberos: TGT obtained",
+                    "BackupAdmin :: NTLM: 1130be98e96ba90823d4c4f8fc4d7c3e"
+                )
+                foreach ($cred in $creds) {
                     if (Should-Stop) { break }
-                    Type-Text "    ► ACCESSING: $file" "Red" 8 -glitch
-                    Show-HackProgress "DOWNLOAD" "Yellow" -fast
+                    Type-Text "  [✓] $cred" "Green" -fast
+                    Play-Sound "data"
                 }
+
+                Spawn-Module "Keylogger"
+                Start-Sleep -Seconds 3
             }
             4 {
-                Write-Host "`n  [🔥 PHASE 4: CHAOS PROPAGATION 🔥]`n" -ForegroundColor Yellow
-                Spawn-Module "Glitch"
-                Show-SystemAlert "WARNING" "VISUAL CORTEX OVERLOAD" "DarkRed"
-                Start-Sleep -Seconds 5
+                # Lateral Movement
+                Write-Host "`n  ╔════════════════════════════════════════════════════════════╗" -ForegroundColor Red
+                Write-Host "  ║ PHASE 4: LATERAL MOVEMENT                                 ║" -ForegroundColor Red
+                Write-Host "  ╚════════════════════════════════════════════════════════════╝`n" -ForegroundColor Red
+
+                Show-Educational "Lateral Movement" "Pass-the-Hash, RDP hijacking, and PSExec allow attackers to move between systems. Use network segmentation and monitor for suspicious authentication."
+
+                Type-Text "  [+] Initiating lateral movement via Pass-the-Hash..." "Yellow" -fast
+                Type-Text "  [+] Target: FILE-SERVER-01 (10.0.2.15)" "Cyan" -fast
+                Type-Text "  [+] Using PsExec for remote code execution..." "Yellow" -fast
+                Show-HackProgress "COMPROMISING FILE-SERVER-01" "Red" -realistic
+
+                Type-Text "`n  [+] Pivoting to Domain Controller..." "Cyan" -fast
+                Type-Text "  [+] Exploiting MS14-068 (Kerberos Checksum Validation)" "Red" -fast
+                Show-HackProgress "COMPROMISING DC-PRIMARY" "Red" -realistic
+
+                Spawn-Module "LateralMovement"
+                Start-Sleep -Seconds 3
             }
             5 {
-                Write-Host "`n  [🌐 PHASE 5: GLOBAL INFECTION 🌐]`n" -ForegroundColor Cyan
-                Spawn-Module "Map"
-                Show-HackProgress "ESTABLISHING BOTNET" "Green" -fast
+                # Persistence
+                Write-Host "`n  ╔════════════════════════════════════════════════════════════╗" -ForegroundColor DarkYellow
+                Write-Host "  ║ PHASE 5: ESTABLISHING PERSISTENCE                         ║" -ForegroundColor DarkYellow
+                Write-Host "  ╚════════════════════════════════════════════════════════════╝`n" -ForegroundColor DarkYellow
+
+                Show-Educational "Persistence" "Attackers create backdoors via scheduled tasks, registry keys, or WMI event subscriptions to maintain access even after reboots."
+
+                $persistence = @(
+                    "Registry Run Key: HKLM\Software\Microsoft\Windows\CurrentVersion\Run\WindowsUpdate",
+                    "Scheduled Task: \Microsoft\Windows\UpdateOrchestrator\SecurityPatch",
+                    "WMI Event Subscription: ActiveScriptEventConsumer",
+                    "Golden Ticket: Forged Kerberos TGT with 10-year lifetime",
+                    "Service DLL Hijacking: wlbsctrl.dll (Print Spooler)"
+                )
+                foreach ($p in $persistence) {
+                    if (Should-Stop) { break }
+                    Type-Text "  [+] Installing: $p" "Yellow" -fast
+                    Play-Sound "scanning"
+                    Start-Sleep -Milliseconds 500
+                }
+                Type-Text "`n  [✓] Persistence mechanisms deployed" "Green" -fast
+                Play-Sound "success"
+
+                Spawn-Module "Infection"
+                Start-Sleep -Seconds 3
             }
             6 {
-                Write-Host "`n  [👁️ PHASE 6: SURVEILLANCE 👁️]`n" -ForegroundColor DarkYellow
+                # Data Exfiltration
+                Write-Host "`n  ╔════════════════════════════════════════════════════════════╗" -ForegroundColor Cyan
+                Write-Host "  ║ PHASE 6: DATA EXFILTRATION                                ║" -ForegroundColor Cyan
+                Write-Host "  ╚════════════════════════════════════════════════════════════╝`n" -ForegroundColor Cyan
+
+                Show-Educational "Data Exfiltration" "Sensitive data is stolen over encrypted channels. Monitor for unusual data transfers and use DLP solutions."
+
+                Type-Text "  [+] Identifying high-value targets..." "Cyan" -fast
+                Type-Text "  [+] Compressing and encrypting data..." "Yellow" -fast
+                Show-HackProgress "STAGING DATA FOR EXFILTRATION" "Cyan" -realistic
+
+                Type-Text "`n  [+] Establishing C2 channel (DNS tunneling)..." "Yellow" -fast
+                Type-Text "  [+] C2 Server: c2.malicious-domain.com (TLS 1.3 encrypted)" "Red" -fast
+
+                Spawn-Module "DataExfil"
+                Start-Sleep -Seconds 3
+            }
+            7 {
+                # Ransomware Deployment
+                Write-Host "`n  ╔════════════════════════════════════════════════════════════╗" -ForegroundColor Red
+                Write-Host "  ║ PHASE 7: RANSOMWARE DEPLOYMENT                            ║" -ForegroundColor Red
+                Write-Host "  ╚════════════════════════════════════════════════════════════╝`n" -ForegroundColor Red
+
+                Show-Educational "Ransomware" "Final stage: encrypt files and demand ransom. Prevention: backups, EDR, and segmentation. Never pay ransoms!"
+
+                Type-Text "  [+] Deploying LockBit 3.0 ransomware variant..." "Red" -fast
+                Type-Text "  [+] Disabling Windows Defender and backup services..." "Yellow" -fast
+                Type-Text "  [+] Deleting Volume Shadow Copies..." "Red" -fast
+                Show-HackProgress "ENCRYPTING ENTERPRISE DATA" "Red" -realistic
+
+                Play-Sound "encryption"
+                Spawn-Module "Ransomware"
+                Start-Sleep -Seconds 3
+            }
+            8 {
+                # Maximum Chaos
+                Write-Host "`n  ╔════════════════════════════════════════════════════════════╗" -ForegroundColor White -BackgroundColor DarkRed
+                Write-Host "  ║ PHASE 8: TOTAL NETWORK COMPROMISE                         ║" -ForegroundColor White -BackgroundColor DarkRed
+                Write-Host "  ╚════════════════════════════════════════════════════════════╝`n" -ForegroundColor White
+
+                Show-SystemAlert "CRITICAL BREACH" "ALL SYSTEMS COMPROMISED - CONTACT INCIDENT RESPONSE" "Red"
+
+                Spawn-Module "Glitch"
+                Spawn-Module "Map"
                 Spawn-Module "Chat"
-                Type-Text "  ► ACTIVATING WEBCAM..." "Yellow" 12
-                Type-Text "  ► ACTIVATING MICROPHONE..." "Yellow" 12
                 Start-Sleep -Seconds 5
             }
             default {
-                # Chaos Mode
-                Show-SystemAlert "CRITICAL ERROR" "SYSTEM INTEGRITY COMPROMISED" "Red"
-                if ((Get-Random -Max 3) -eq 0) { Spawn-Module (Get-Random "Matrix","Hex","Map","Chat","Infection","Glitch") }
+                # Sustained Attack Mode
+                Show-SystemAlert "SUSTAINED ATTACK" "APT MAINTAINING PRESENCE" "Red"
+                $modules = @("Matrix", "Hex", "Map", "Keylogger", "DataExfil", "Ransomware", "Infection", "Glitch", "LateralMovement")
+                if ((Get-Random -Max 3) -eq 0) { Spawn-Module (Get-Random $modules) }
+                Start-Sleep -Seconds 5
             }
         }
 
         $phase++
-        if ($phase -gt 10) { $phase = 10 } # Stay in chaos mode
+        if ($phase -gt 15) { $phase = 15 } # Stay in sustained mode
 
         Move-Window-Random
         Start-Sleep -Seconds 2
