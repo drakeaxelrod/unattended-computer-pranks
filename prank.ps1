@@ -27,6 +27,13 @@ $global:pauseFlag = "$env:TEMP\cyberApocalypsePause.tmp"
 $global:sessionLog = @()
 $global:moduleTracker = "$env:TEMP\cyberApocalypseModules.tmp"
 
+# Clean up any leftover flag files from previous runs (only on Launcher/Master)
+if ($Module -eq "Launcher" -or $Module -eq "Master") {
+    if (Test-Path $global:flagFile) { Remove-Item $global:flagFile -Force -ErrorAction SilentlyContinue }
+    if (Test-Path $global:pauseFlag) { Remove-Item $global:pauseFlag -Force -ErrorAction SilentlyContinue }
+    if (Test-Path $global:moduleTracker) { Remove-Item $global:moduleTracker -Force -ErrorAction SilentlyContinue }
+}
+
 # Intensity-based configuration
 $global:config = @{
     Intensity = $Intensity
