@@ -6,7 +6,7 @@
 # Closing windows won't help - they multiply! MUAHAHAHA!
 # ============================================================================
 
-param([switch]$child, [int]$generation = 0)
+param([switch]$child, [switch]$master, [int]$generation = 0)
 
 # Global flag file to stop all instances
 $global:flagFile = "$env:TEMP\cyberApocalypseFlag.tmp"
@@ -437,10 +437,16 @@ function Show-BootSequence {
 # MAIN EXECUTION
 # ============================================================================
 
+# Launcher: Spawn Master in new window and exit
+if (-not $child -and -not $master) {
+    Start-Process powershell -ArgumentList "-ExecutionPolicy Bypass -NoExit -WindowStyle Normal -File `"$PSCommandPath`" -master"
+    exit
+}
+
 Register-Process
 Clear-Host
 
-if (-not $child) {
+if ($master) {
     # PARENT WINDOW - Master Controller
     Show-BootSequence
 
